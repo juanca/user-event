@@ -788,3 +788,20 @@ test('navigation key: {arrowleft} and {arrowright} moves the cursor', () => {
     input[value="Brekafast"] - keyup: t (116)
   `)
 })
+
+test('should submit a form when ENTER is pressed on input', () => {
+  const handleSubmit = jest.fn()
+  const {element} = setup(
+    `
+    <form>
+      <input type='text'/>
+    </form>
+  `,
+    {
+      eventHandlers: {submit: handleSubmit},
+    },
+  )
+  userEvent.type(element.querySelector('input'), '{enter}')
+
+  expect(handleSubmit).toHaveBeenCalledTimes(1)
+})
