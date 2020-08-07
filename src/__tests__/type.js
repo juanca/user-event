@@ -885,8 +885,48 @@ test('navigation key: {arrowleft} and {arrowright} moves the cursor', () => {
   `)
 })
 
-test('should submit a form when ENTER is pressed on input', () => {
+test('should submit a form containing multiple text inputs and an input of type submit', () => {
   const handleSubmit = jest.fn()
+  const {element} = setup(
+    `
+    <form>
+      <input type='text'/>
+      <input type='text'/>
+      <input type='submit' value="submit" />
+    </form>
+  `,
+    {
+      eventHandlers: {submit: handleSubmit},
+    },
+  )
+  userEvent.type(element.querySelector('input'), '{enter}')
+
+  expect(handleSubmit).toHaveBeenCalledTimes(1)
+})
+
+test('should submit a form containing multiple text inputs and a submit button', () => {
+  const handleSubmit = jest.fn()
+
+  const {element} = setup(
+    `
+    <form>
+      <input type='text'/>
+      <input type='text'/>
+      <button type='submit' value="submit" />
+    </form>
+  `,
+    {
+      eventHandlers: {submit: handleSubmit},
+    },
+  )
+  userEvent.type(element.querySelector('input'), '{enter}')
+
+  expect(handleSubmit).toHaveBeenCalledTimes(1)
+})
+
+test('should submit a form with one input element', () => {
+  const handleSubmit = jest.fn()
+
   const {element} = setup(
     `
     <form>
@@ -900,6 +940,24 @@ test('should submit a form when ENTER is pressed on input', () => {
   userEvent.type(element.querySelector('input'), '{enter}')
 
   expect(handleSubmit).toHaveBeenCalledTimes(1)
+})
+
+test('should not submit a form with multiple input when ENTER is pressed on one of it', () => {
+  const handleSubmit = jest.fn()
+  const {element} = setup(
+    `
+    <form>
+      <input type='text'/>
+      <input type='text'/>
+    </form>
+  `,
+    {
+      eventHandlers: {submit: handleSubmit},
+    },
+  )
+  userEvent.type(element.querySelector('input'), '{enter}')
+
+  expect(handleSubmit).toHaveBeenCalledTimes(0)
 })
 
 test('should type inside a contenteditable div', () => {
