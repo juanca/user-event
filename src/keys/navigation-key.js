@@ -28,14 +28,14 @@ function getSelectionRange(currentElement, key) {
   }
 }
 
-function navigationKey(currentElement, key) {
+function navigationKey(key) {
   const event = {
     key,
     keyCode: keys[key].keyCode,
     which: keys[key].keyCode,
   }
 
-  return ({eventOverrides}) => {
+  return ({currentElement, eventOverrides}) => {
     fireEvent.keyDown(currentElement(), {
       ...event,
       ...eventOverrides,

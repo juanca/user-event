@@ -45,6 +45,8 @@ const modifierCallbackMap = {
 }
 
 const specialCharCallbackMap = {
+  '{arrowleft}': navigationKey('ArrowLeft'),
+  '{arrowright}': navigationKey('ArrowRight'),
   '{enter}': handleEnter,
   '{esc}': handleEsc,
   '{del}': handleDel,
